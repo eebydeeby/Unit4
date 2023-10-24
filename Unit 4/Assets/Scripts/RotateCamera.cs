@@ -4,15 +4,9 @@ using UnityEngine;
 
 public class RotateCamera : MonoBehaviour
 {
-	public float rotationSpeed;
+	public float rotationSpeed; // Variable for speed of rotation
 	
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
+	// Rotates the camera around the platform when A or D is pressed
     void Update()
     {
         float horizontalInput = Input.GetAxis("Horizontal");

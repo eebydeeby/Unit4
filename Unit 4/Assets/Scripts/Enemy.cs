@@ -4,18 +4,17 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-	public float speed;
+	public float speed; // Variable for how fast the enemy rolls
 	private Rigidbody enemyRb;
 	private GameObject player;
 	
-    // Start is called before the first frame update
-    void Start()
+    void Start() 
     {
 		enemyRb = GetComponent<Rigidbody>();
-		player = GameObject.Find("Player");
+		player = GameObject.Find("Player"); // Identifies player object as target
     }
 
-    // Update is called once per frame
+	// Finds player position and pushes enemy ball toward it
     void Update()
     {
 		Vector3 lookDirection = ((player.transform.position

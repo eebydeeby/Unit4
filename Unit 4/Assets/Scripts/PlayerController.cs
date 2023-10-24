@@ -4,29 +4,30 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-	private Rigidbody playerRb;
-	public float speed = 5.0f;
 	private GameObject focalPoint;
-	public bool hasPowerup;
-	private float PowerupStrength = 15.0f;
 	public GameObject powerupIndicator;
+	private Rigidbody playerRb;
+	public bool hasPowerup; // State of player's powered-up status
+	public float speed = 5.0f; // Speed player moves
+	private float PowerupStrength = 15.0f; // Force with which player pushes away enemies
 	
-    // Start is called before the first frame update
     void Start()
     {
         playerRb = GetComponent<Rigidbody>();
 		focalPoint = GameObject.Find("Focal Point");
     }
 
-    // Update is called once per frame
     void Update()
     {
+		// Pushes player ball with forward force when W or S are pressed
         float forwardInput = Input.GetAxis("Vertical");
 		playerRb.AddForce(focalPoint.transform.forward * speed * forwardInput);
+		// Moves powerup indicator around with player, using an offset
 		powerupIndicator.transform.position = transform.position
 			+ new Vector3(0, -0.5f, 0);
     }
 	
+	// Handles powerup event when player touches powerup
 	private void OnTriggerEnter(Collider other)
 	{
 		if (other.CompareTag("Powerup")){
@@ -37,12 +38,14 @@ public class PlayerController : MonoBehaviour
 		}
 	}
 	
+	// Sets countdown for powerup status
 	IEnumerator PowerupCountdownRoutine() {
 		yield return new WaitForSeconds(7);
 		hasPowerup = false;
 		powerupIndicator.gameObject.SetActive(false);
 	}
 	
+	// Handles collision between player and enemy, pushing enemy with added force if player is powered up
 	private void OnCollisionEnter(Collision collision){
 		if (collision.gameObject.CompareTag("Enemy") && hasPowerup) {
 			

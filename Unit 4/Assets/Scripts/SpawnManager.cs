@@ -6,32 +6,18 @@ public class SpawnManager : MonoBehaviour
 {
 	public GameObject enemyPrefab;
 	public GameObject powerupPrefab;
-	private float spawnRange = 9;
-	public int enemyCount;
-	public int waveNumber = 1;
+	private float spawnRange = 9; // How far out the enemies can spawn
+	public int enemyCount; // Number of enemies at any given point
+	public int waveNumber = 1; // Number of enemies to spawn - corresponds to wave number
 	
-    // Start is called before the first frame update
     void Start() {
 		SpawnEnemyWave(waveNumber);
 		Instantiate(powerupPrefab, GenerateSpawnPosition(),
 			powerupPrefab.transform.rotation);
 	}
-		
-	private Vector3 GenerateSpawnPosition() {
-    	float spawnPosX = Random.Range(-spawnRange, spawnRange);
-		float spawnPosZ = Random.Range(-spawnRange, spawnRange);
-		Vector3 randomPos = new Vector3(spawnPosX, 0, spawnPosZ);
-		return randomPos;
-	}
 	
-	void SpawnEnemyWave(int enemiesToSpawn) {
-		for (int i = 0; i < enemiesToSpawn; i++) {
-			Instantiate(enemyPrefab, GenerateSpawnPosition(),
-				enemyPrefab.transform.rotation);
-		}
-	}
-		
-    // Update is called once per frame
+	/* Checks too see if all enemies are destroyed and calls relevant functions if so,
+	and spawns items */
     void Update()
     {
         enemyCount = FindObjectsOfType<Enemy>().Length;
@@ -40,4 +26,20 @@ public class SpawnManager : MonoBehaviour
 			Instantiate(powerupPrefab, GenerateSpawnPosition(), powerupPrefab.transform.rotation);
 		}
     }
+	
+	// Returns a random spot within a given range defined by spawnRange	
+	private Vector3 GenerateSpawnPosition() {
+    	float spawnPosX = Random.Range(-spawnRange, spawnRange);
+		float spawnPosZ = Random.Range(-spawnRange, spawnRange);
+		Vector3 randomPos = new Vector3(spawnPosX, 0, spawnPosZ);
+		return randomPos;
+	}
+	
+	// Spawns enemies
+	void SpawnEnemyWave(int enemiesToSpawn) {
+		for (int i = 0; i < enemiesToSpawn; i++) {
+			Instantiate(enemyPrefab, GenerateSpawnPosition(),
+				enemyPrefab.transform.rotation);
+		}
+	}
 }
